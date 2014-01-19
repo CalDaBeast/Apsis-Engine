@@ -1,11 +1,9 @@
+
 package com.apsis.render;
 
 /**
- *
  * @author Cal Stephens
  */
-public interface Renderable {
+public class Window {
 
-	public void render();
-	
 }

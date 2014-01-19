@@ -16,7 +16,7 @@ public class DeploymentTest {
 		DeploymentTest test = new DeploymentTest();
 		test.startRendering();
 	}
-
+	
 	public DeploymentTest() {
 		System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
 		try {
@@ -40,7 +40,7 @@ public class DeploymentTest {
 
 	public void startRendering() {
 		while (!Display.isCloseRequested()) {
-			
+
 		}
 		Display.destroy();
 		System.exit(0);
