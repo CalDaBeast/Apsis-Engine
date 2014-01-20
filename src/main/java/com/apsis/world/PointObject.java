@@ -15,7 +15,8 @@ public class PointObject implements Groupable{
 
 	private Point pos;
 	private double rot = 0;
-
+	private Group<PointObject> owningGroup = null;
+	
 	/**
 	 * @param pos The location of the object
 	 */
@@ -115,13 +116,33 @@ public class PointObject implements Groupable{
 		this.rot = rot;
 	}
 
+	/**
+	 * @return the Group that this object is contained in, null if it is not in a group. 
+	 */
+	public Group<PointObject> getOwningGroup(){
+		return owningGroup;
+	}
+	
+	/**
+	 * @return the World that this object is contained in, null if it is not in a world. 
+	 */
+	public World getOwningWorld(){
+		if(owningGroup instanceof World) return (World) owningGroup;
+		return null;
+	}
+	
 	@Override
 	public boolean addedTo(Group<? extends Groupable> group) {
+		if(group.getContent().contains(this)){
+			throw new IllegalArgumentException(group + " already contains this object.");
+		}
+		this.owningGroup = (Group<PointObject>) group;
 		return true;
 	}
 
 	@Override
 	public void removedFrom(Group<? extends Groupable> group) {
+		this.owningGroup = null;
 	}
 
 }

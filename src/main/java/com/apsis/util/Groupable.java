@@ -10,7 +10,7 @@ public interface Groupable {
 	 * Will be called when the object is added to a Group.
 	 * 
 	 * @param group the Group the object is being added to
-	 * @return false if the operation should be canceled
+	 * @return true if the operation is allowed
 	 */
 	public boolean addedTo(Group<? extends Groupable> group);
 	

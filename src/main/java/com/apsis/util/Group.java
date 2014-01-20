@@ -36,20 +36,67 @@ public class Group<T extends Object> {
 	 */
 	public synchronized void add(T... objects) {
 		for (T object : objects) {
-			content.add(object);
 			if (object instanceof Groupable) {
-				if (!((Groupable) object).addedTo((Group<Groupable>) this)) content.remove(object);
-			}
+				if (((Groupable) object).addedTo((Group<Groupable>) this)) content.add(object);
+			} else content.add(object);
+
 		}
 	}
 
 	/**
+	 * Removes the given objects from the group
+	 *
+	 * @param objects the objects to add
+	 */
+	public synchronized void remove(T... objects) {
+		for (T object : objects) {
+			if (object instanceof Groupable) {
+				((Groupable) object).removedFrom((Group<Groupable>) this);
+			}
+			content.remove(object);
+		}
+	}
+
+	/**
+	 * Check if the internal ArrayList contains the given objects
+	 *
+	 * @param objects the objects to check
+	 * @return whether or not the internal ArrayList contains all of the given objects
+	 */
+	public synchronized boolean contains(T... objects) {
+		boolean contains = true;
+		for (T object : objects) {
+			contains = content.contains(object) && contains;
+		}
+		return contains;
+	}
+
+	/**
+	 * Removes all objects from the Group
+	 */
+	public synchronized void clear() {
+		content.clear();
+	}
+
+	/**
+	 * @return the number of items in the internal ArrayList
+	 */
+	public int size() {
+		return content.size();
+	}
+
+	/**
 	 * Creates a shallow copy of the internal list of group members
-	 * and returns it.<br/>
+	 * and returns it.<br>
 	 * Modifications to the returned list will have <b><i>no</b></i>
 	 * effect on the Group itself.
 	 * Modifications to the objects inside the list itself
-	 * <b><i>will</i></b> affect the objects inside of the Group.
+	 * <b><i>will</i></b> affect the objects inside of the Group.<br>
+	 * <br>
+	 * Use synchronized methods when possible:<br>
+	 * <code>{@link Group#contains(java.lang.Object...) }</code><br>
+	 * <code>{@link Group#size() }</code><br>
+	 * <code>{@link Group#clear() }</code>
 	 *
 	 * @return a shallow copy of the internal list
 	 */
@@ -100,6 +147,11 @@ public class Group<T extends Object> {
 		if (getClass() != obj.getClass()) return false;
 		final Group<?> other = (Group<?>) obj;
 		return Objects.equals(this.content, other.content);
+	}
+
+	@Override
+	public String toString() {
+		return "Group<" + T + ">{size=" + content.size() + "}";
 	}
 
 }
