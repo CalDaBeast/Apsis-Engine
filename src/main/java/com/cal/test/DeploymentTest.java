@@ -15,8 +15,21 @@ public class DeploymentTest {
 	public static void main(String[] args) {
 		DeploymentTest test = new DeploymentTest();
 		test.startRendering();
+		/*
+		 * Runner<String> run = new Runner<String>(){
+		 * public String multiply(String s, int times){
+		 * System.out.println(s + " " + times);
+		 * String build = "";
+		 * for(int i = 0; i < times; i++){
+		 * build += s;
+		 * }
+		 * return build;
+		 * }
+		 * };
+		 * System.out.println(run.runOn("Hello", 10));
+		 */
 	}
-	
+
 	public DeploymentTest() {
 		System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
 		try {

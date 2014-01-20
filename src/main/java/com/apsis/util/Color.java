@@ -7,6 +7,7 @@ import java.util.Random;
  * Uses the RGB model.
  *
  * @author Cal Stephens
+ * @see ColorHSV An alternative Color object using the HSV (Hue, Saturation, Value) model
  */
 public class Color {
 
@@ -324,9 +325,9 @@ public class Color {
 
 	@Override
 	public String toString() {
-		return "Color[" + (name == null ? "" : "name=" + name + ",")
-				+ "r=" + Math.round(red) + ",g=" + Math.round(green) + ",b=" + Math.round(blue)
-				+ (alpha == 256 ? "" : ",a=" + Math.round(alpha)) + ",hexa=" + toHexString() + "]";
+		return "Color{" + (name == null ? "" : "name=" + name + ", ")
+				+ "r=" + Math.round(red) + ", g=" + Math.round(green) + ", b=" + Math.round(blue)
+				+ (alpha == 256 ? "" : ", a=" + Math.round(alpha)) + ", hexa=" + toHexString() + "]";
 	}
 
 }

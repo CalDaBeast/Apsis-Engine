@@ -8,6 +8,7 @@ package com.apsis.util;
  * <a href=http://www.cs.rit.edu/~ncs/color/t_convert.html>this site</a>.
  *
  * @author Cal Stephens
+ * @see Color The primary Color object using the RGB model
  */
 public class ColorHSV {
 
@@ -252,8 +253,8 @@ public class ColorHSV {
 
 	@Override
 	public String toString() {
-		return "Color[h=" + Math.round(hue) + ",s=" + saturation + ",v=" + value
-				+ (alpha == 256 ? "" : ",a=" + Math.round(alpha)) + "]";
+		return "Color{h=" + Math.round(hue) + ", s=" + saturation + ", v=" + value
+				+ (alpha == 256 ? "" : ", a=" + Math.round(alpha)) + "}";
 	}
 
 }
