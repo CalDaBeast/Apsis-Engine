@@ -1,36 +1,34 @@
 package com.cal.test;
 
-import java.io.File;
-import org.lwjgl.LWJGLException;
+import com.apsis.event.EventHandler;
+import com.apsis.event.EventListener;
+import com.apsis.event.Listener;
+import com.apsis.event.TickEvent;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.PixelFormat;
 
 /**
  * @author Cal Stephens
  */
-public class DeploymentTest {
+public class DeploymentTest implements Listener{
 
 	public static void main(String[] args) {
+		EventHandler handler = new EventHandler();
 		DeploymentTest test = new DeploymentTest();
-		test.startRendering();
-		/*
-		 * Runner<String> run = new Runner<String>(){
-		 * public String multiply(String s, int times){
-		 * System.out.println(s + " " + times);
-		 * String build = "";
-		 * for(int i = 0; i < times; i++){
-		 * build += s;
-		 * }
-		 * return build;
-		 * }
-		 * };
-		 * System.out.println(run.runOn("Hello", 10));
-		 */
+		handler.subscribeAll(test);
+		handler.triggerEvent(new TickEvent());
+		handler.triggerEvent(new TickEvent());
+		handler.unsubscribeAll(test);
+		handler.triggerEvent(new TickEvent());
+	}
+	
+	@EventListener
+	public void onTick(TickEvent e){
+		System.out.println("tick tock");
 	}
 
 	public DeploymentTest() {
+		/*
 		System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
 		try {
 			Display.setDisplayMode(new DisplayMode(250, 250));
@@ -40,6 +38,7 @@ public class DeploymentTest {
 			e.printStackTrace(System.out);
 			System.exit(0);
 		}
+		*/
 	}
 
 	public final void initGL(int x, int y) {

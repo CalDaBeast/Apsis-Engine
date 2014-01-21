@@ -3,6 +3,7 @@ package com.apsis.world;
 import com.apsis.util.Group;
 import com.apsis.util.Groupable;
 import com.apsis.util.Point;
+import java.util.Objects;
 
 /**
  * An object that exists on a Coordinate Plane.
@@ -143,6 +144,25 @@ public class PointObject implements Groupable{
 	@Override
 	public void removedFrom(Group<? extends Groupable> group) {
 		this.owningGroup = null;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 67 * hash + Objects.hashCode(this.pos);
+		hash = 67 * hash + (int) (Double.doubleToLongBits(this.rot) ^ (Double.doubleToLongBits(this.rot) >>> 32));
+		hash = 67 * hash + Objects.hashCode(this.owningGroup);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		final PointObject other = (PointObject) obj;
+		if (!Objects.equals(this.pos, other.pos)) return false;
+		if (Double.doubleToLongBits(this.rot) != Double.doubleToLongBits(other.rot)) return false;
+		return Objects.equals(this.owningGroup, other.owningGroup);
 	}
 
 }
