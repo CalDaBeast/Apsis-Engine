@@ -26,13 +26,36 @@ public class EventHandler {
 	 * @see EventHandler#subscribeAll(com.apsis.event.Listener)
 	 */
 	public synchronized void triggerEvent(Event event) {
-		if(!listeners.containsKey(event.getClass())) return;
+		if (!listeners.containsKey(event.getClass())) return;
 		HashMap<Method, ArrayList<Listener>> eventListeners = listeners.get(event.getClass());
 		Iterator<Entry<Method, ArrayList<Listener>>> i = eventListeners.entrySet().iterator();
 		while (i.hasNext()) {
 			Entry<Method, ArrayList<Listener>> entry = i.next();
 			for (Listener listener : entry.getValue()) {
 				invoke(entry.getKey(), listener, event, entry.getValue());
+			}
+		}
+	}
+
+	/**
+	 * Triggers all listener methods that are subscribed to the given event
+	 * only for the given objects
+	 *
+	 * @param event the event being triggered
+	 * @param triggerOn objects the trigger the event on
+	 * @see EventHandler#subscribe(java.lang.reflect.Method, com.apsis.event.Listener)
+	 * @see EventHandler#subscribeAll(com.apsis.event.Listener)
+	 */
+	public synchronized void triggerEvent(Event event, Listener... triggerOn) {
+		if (!listeners.containsKey(event.getClass())) return;
+		HashMap<Method, ArrayList<Listener>> eventListeners = listeners.get(event.getClass());
+		Iterator<Entry<Method, ArrayList<Listener>>> i = eventListeners.entrySet().iterator();
+		while (i.hasNext()) {
+			Entry<Method, ArrayList<Listener>> entry = i.next();
+			for (Listener trigger : triggerOn) {
+				if (entry.getValue().contains(trigger)) {
+					invoke(entry.getKey(), trigger, event, entry.getValue());
+				}
 			}
 		}
 	}
@@ -194,6 +217,7 @@ public class EventHandler {
 		try {
 			method.invoke(listener, event);
 		} catch (IllegalAccessException | InvocationTargetException ex) {
+			//unsubscribes the invalid method
 			if (!methodIsListener(method)) {
 				for (Listener unsubscribe : others) {
 					unsubscribe(method, unsubscribe);
